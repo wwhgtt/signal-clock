@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>时钟特效-无图片</title>
+    <style>
+	*{ margin:0; padding:0;}
+    body{font-size: 14px;} 
+	ul{ list-style:none;}
+	
+	.center{ width:500px; margin:200px auto; height:500px;}
+	#wordClock{ height:50px; line-height:50px; border-bottom:1px solid #dedede;}
+	#chartClock{ position:relative; width:220px; height:220px; border:4px solid #666; border-radius:50%;}
+	#hh{ height:6px; width:55px; left:110px; top:107px; background:#09F; position:absolute; border-radius:4px;transform-origin:left center;transform:rotate(0deg); z-index:9997;
+}
+	#mm{ height:4px; width:75px; left:110px; top:108px; background:#396; position:absolute; border-radius:4px;transform-origin:left center;transform:rotate(0deg);z-index:9997;}
+	#ss{ height:2px; width:95px; left:110px; top:109px; background:#C93; position:absolute; border-radius:4px;transform-origin:left center;transform:rotate(0deg);z-index:9997;}
+	
+	#chartClock span{ position:absolute;transform-origin:-106px center;z-index:99; width:4px; height:4px; left:216px;top:108px; background:#666;}
+	#chartClock span.zheng{transform-origin:-102px center;width:8px;background:#333;left:212px;}
+	#chartClock strong{ position:absolute; left:110px; top:110px; width:8px; height:8px; background:#666; margin-left:-4px; margin-top:-4px; border-radius:50%;z-index:9998;}
+    </style>
+</head>
+<body>
+	<div class="center">
+    	<div id="wordClock"></div>
+        <div id="chartClock">
+        	<i id="hh"></i>
+            <i id="mm"></i>
+            <i id="ss"></i>
+            <strong></strong>
+            <span></span>
+        </div>
+    </div>
+</body>
+<script type="text/javascript">
+window.onload=function(){
+	var wordClock=document.getElementById("wordClock");
+	var chartClock=document.getElementById("chartClock");
+	
+	var ohh=document.getElementById("hh");
+	var omm=document.getElementById("mm");
+	var oss=document.getElementById("ss");		
+	
+	var cdeg=-90;
+		
+	var b1=30;//h
+	var b2=6;//m
+	var cb2=1/2;
+	var cb22=1/120;
+	var b3=6//s
+	var cb3=1/10;
+	
+	drawclock();
+	function drawclock(){
+		for(var i=0;i<60;i++){
+			var ospan=document.createElement("span");
+			if(i%5==0){
+				ospan.className="zheng";
+				var degg=b2*i+cdeg;
+				ospan.style.transform="rotate("+degg+"deg)";
+				chartClock.appendChild(ospan);
+			}else{
+				var degg=b2*i+cdeg;
+				ospan.style.transform="rotate("+degg+"deg)";
+				chartClock.appendChild(ospan);
+			};
+		};
+	};
+	
+	var nowdate=new Date();
+	var hh=(nowdate.getHours()>12)?nowdate.getHours()-12:nowdate.getHours();
+	var mm=nowdate.getMinutes();
+	var ss=nowdate.getSeconds();
+	
+	wordClock.innerHTML=hh+":"+mm+":"+ss;
+	
+	var deghh=b1*hh+mm*cb2+ss*cb22+cdeg;
+	var degmm=b2*mm+ss*cb3+cdeg;
+	var degss=b3*ss+cdeg;
+	
+	ohh.style.transform="rotate("+deghh+"deg)";
+	omm.style.transform="rotate("+degmm+"deg)";
+	oss.style.transform="rotate("+degss+"deg)";
+	
+	setInterval(function(){
+		nowdate=new Date();
+		hh=(nowdate.getHours()>12)?nowdate.getHours()-12:nowdate.getHours();
+		mm=nowdate.getMinutes();
+		ss=nowdate.getSeconds();
+		wordClock.innerHTML=hh+":"+mm+":"+ss;
+		
+		deghh=b1*hh+mm*cb2+ss*cb22+cdeg;
+		degmm=b2*mm+ss*cb3+cdeg;
+		degss=b3*ss+cdeg;
+		ohh.style.transform="rotate("+deghh+"deg)";
+		omm.style.transform="rotate("+degmm+"deg)";
+		oss.style.transform="rotate("+degss+"deg)";		
+		
+	},1000);
+	
+};
+</script>
+</html>

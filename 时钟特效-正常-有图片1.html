@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>时钟特效-有图片</title>
+    <style>
+	*{ margin:0; padding:0;}
+    body{font-size: 14px;} 
+	ul{ list-style:none;}
+	
+	.center{ width:750px; margin:50px auto; height:800px;}
+	#wordClock{ height:50px; line-height:50px; border-bottom:1px solid #dedede;}
+	#chartClock{ background:url(cback1.png) no-repeat left top; position:relative; width:750px; height:750px;}
+	#hh{ height:106px; margin-top:-53px; width:276px; margin-left:-30px; left:375px; top:375px;background:url(ch1.png) no-repeat left top; position:absolute;transform-origin:30px center;transform:rotate(0deg);
+}
+	#mm{ height:50px; margin-top:-25px; width:310px; margin-left:-17px; left:375px; top:375px;background:url(cm1.png) no-repeat left top;position:absolute;transform-origin:17px center;transform:rotate(0deg);}
+	#ss{ height:56px; margin-top:-28px; width:400px; margin-left:-83px; left:375px; top:375px;background:url(cs1.png) no-repeat left top;position:absolute;transform-origin:83px center;transform:rotate(0deg);}
+    </style>
+</head>
+<body>
+	<div class="center">
+    	<div id="wordClock"></div>
+        <div id="chartClock">
+        	<i id="hh"></i>
+            <i id="mm"></i>
+            <i id="ss"></i>
+        </div>
+    </div>
+</body>
+<script type="text/javascript">
+window.onload=function(){
+	var wordClock=document.getElementById("wordClock");
+	var chartClock=document.getElementById("chartClock");
+	
+	var ohh=document.getElementById("hh");
+	var omm=document.getElementById("mm");
+	var oss=document.getElementById("ss");
+	
+	var cdeg=-90;
+		
+	var b1=30;//h
+	var b2=6;//m
+	var cb2=1/2;
+	var cb22=1/120;
+	var b3=6//s
+	var cb3=1/10;
+	
+	var nowdate=new Date();
+	var hh=(nowdate.getHours()>12)?nowdate.getHours()-12:nowdate.getHours();
+	var mm=nowdate.getMinutes();
+	var ss=nowdate.getSeconds();
+	
+	wordClock.innerHTML=hh+":"+mm+":"+ss;
+	
+	var deghh=b1*hh+mm*cb2+ss*cb22+cdeg;
+	var degmm=b2*mm+ss*cb3+cdeg;
+	var degss=b3*ss+cdeg;
+	
+	ohh.style.transform="rotate("+deghh+"deg)";
+	omm.style.transform="rotate("+degmm+"deg)";
+	oss.style.transform="rotate("+degss+"deg)";
+	
+	setInterval(function(){
+		nowdate=new Date();
+		hh=(nowdate.getHours()>12)?nowdate.getHours()-12:nowdate.getHours();
+		mm=nowdate.getMinutes();
+		ss=nowdate.getSeconds();
+		wordClock.innerHTML=hh+":"+mm+":"+ss;
+		
+		deghh=b1*hh+mm*cb2+ss*cb22+cdeg;
+		degmm=b2*mm+ss*cb3+cdeg;
+		degss=b3*ss+cdeg;
+		ohh.style.transform="rotate("+deghh+"deg)";
+		omm.style.transform="rotate("+degmm+"deg)";
+		oss.style.transform="rotate("+degss+"deg)";		
+		
+	},1000);
+	
+};
+</script>
+</html>
